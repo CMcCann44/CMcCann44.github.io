@@ -1,0 +1,423 @@
+<!-- To test: python -m http.server 8000, go to http://localhost:8000 -->
+<!-- <a href="resume.html">Resume</a> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Colin McCann - Projects</title>
+  <link rel="icon" type="image/png" href="images/CM_blue_fill.png"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161d;
+      --border: #1e2330;
+      --accent: #4a7cff;
+      --accent2: #7af0c0;
+      --text: #e8eaf0;
+      --muted: #7a8099;
+      --heading-font: 'Playfair Display', serif;
+      --mono-font: 'IBM Plex Mono', monospace;
+      --body-font: 'IBM Plex Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body-font);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 6rem 0 4rem;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .tag {
+      font-family: var(--mono-font);
+      font-size: 0.75rem;
+      color: var(--accent2);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: var(--heading-font);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--text) 60%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      font-family: var(--mono-font);
+      font-size: 0.85rem;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .links a:hover {
+      color: var(--accent2);
+      border-color: var(--accent2);
+    }
+
+    /* ── Sections ── */
+    section {
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.3s; }
+
+    .section-label {
+      font-family: var(--mono-font);
+      font-size: 0.7rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h2 {
+      font-family: var(--heading-font);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    /* ── Project Cards ── */
+    .project {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      margin-bottom: 4rem;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .project.reverse { direction: rtl; }
+    .project.reverse > * { direction: ltr; }
+
+    .project-text h3 {
+      font-family: var(--heading-font);
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .project-text p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-image {
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.4s ease;
+      filter: brightness(0.9);
+    }
+
+    .project-image:hover img {
+      transform: scale(1.03);
+      filter: brightness(1);
+    }
+
+    /* Double image grid */
+    .image-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .image-pair figure {
+      text-align: center;
+    }
+
+    .image-pair figcaption {
+      font-family: var(--mono-font);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Education ── */
+    .edu-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .edu-block h3 {
+      font-family: var(--heading-font);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .edu-block p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .courses {
+      margin-top: 1rem;
+      font-family: var(--mono-font);
+      font-size: 0.78rem;
+      color: var(--accent2);
+      line-height: 1.9;
+    }
+
+    /* ── Research ── */
+    .research-block {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 1.5rem 2rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .research-block h3 {
+      font-family: var(--heading-font);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .research-block p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: var(--mono-font);
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover { color: var(--accent2); }
+
+    /* ── Animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .project, .project.reverse {
+        grid-template-columns: 1fr;
+        direction: ltr;
+        gap: 1.5rem;
+      }
+      .image-pair { grid-template-columns: 1fr; }
+      .links { flex-direction: column; gap: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <p class="tag">Portfolio</p>
+    <h1>Colin McCann</h1>
+    <p class="subtitle">Math / Data Science · Binghamton University</p>
+    <div class="links">
+      <a href="music.html">Music</a>
+      <a href="https://www.linkedin.com/in/cmccann2" target="_blank">↗ LinkedIn</a>
+      <a href="https://github.com/CMcCann44" target="_blank">↗ GitHub</a>
+    </div>
+  </header>
+
+  <!-- Projects -->
+  <section>
+    <p class="section-label">Projects</p>
+
+    <!-- JFK Flight Data -->
+    <div class="project">
+      <div class="project-text">
+        <h3>Airport Flight Data Analysis</h3>
+        <p>Used Pandas to analyze large JFK airport datasets with over 25,000 entries and determine possible causes of flight delays.</p>
+        <p>Performed chi-square and t-tests to determine if certain factors were significantly correlated with flight delay, such as day of the week, flight destination, airline, and more.</p>
+      </div>
+      <div class="project-image">
+        <img src="images/AirportFig1.png" alt="Flight destination analysis chart"/>
+      </div>
+    </div>
+
+    <!-- Stock Market -->
+    <div class="project reverse">
+      <div class="project-text">
+        <h3>Stock Market Web Scraping</h3>
+        <p>Used yFinance and BeautifulSoup to scrape and parse web stock data.</p>
+        <p>Also used Pandas and Plotly to create graphs showing stock trends.</p>
+      </div>
+      <div class="project-image">
+        <img src="images/stockgraph.png" alt="Stock market graph"/>
+      </div>
+    </div>
+
+    <!-- Minecraft Computer -->
+    <div class="project">
+      <div class="project-text">
+        <h3>Minecraft Computer</h3>
+        <p>Built an original adder and register using the in-game wiring system.</p>
+        <p>Currently working on an original 8-bit CPU.</p>
+      </div>
+      <div class="project-image">
+        <img src="images/FullAdder.png" alt="Minecraft full adder"/>
+      </div>
+    </div>
+
+    <!-- Minecraft image pair -->
+    <div class="image-pair">
+      <figure>
+        <div class="project-image">
+          <img src="images/FullAdder.png" alt="Original Full Adder"/>
+        </div>
+        <figcaption>Original Full Adder</figcaption>
+      </figure>
+      <figure>
+        <div class="project-image">
+          <img src="images/Mux.png" alt="Original Multiplexer"/>
+        </div>
+        <figcaption>Original Multiplexer</figcaption>
+      </figure>
+    </div>
+
+  </section>
+
+  <!-- Research -->
+  <section>
+    <p class="section-label">Research</p>
+    <div class="research-block">
+      <h3>Recodings for Classification Machine Learning Models</h3>
+      <p>As part of research projects with Dr. Kurtz at Binghamton University.</p>
+      <p>Created and used an "add-coding" method to boost accuracy of small-scale machine learning algorithms.</p>
+      <p>"Add-coding" involves transforming input features and appending them to the input layer. Tested various transformations including squares, sines, and products of input features.</p>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section>
+    <p class="section-label">Education</p>
+    <div class="edu-block">
+      <h3>Binghamton University</h3>
+      <p>Math / Data Science major · Computer Science minor</p>
+      <div class="courses">
+        Honors Calculus · Calc III · Linear Algebra · Number Systems ·
+        Programming and Hardware Fundamentals · Probability Theory ·
+        Advanced Linear Algebra · Complex Analysis · Object Oriented Programming ·
+        Real Analysis I · Topology · Mathematical Statistics ·
+        ODE · Data Science with R · Real Analysis II
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      Website built with HTML &amp; CSS.<br/>
+      Deployed October 2024 · Last updated May 2026.
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>
