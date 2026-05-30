@@ -129,6 +129,65 @@
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .video-card iframe {
+      width: 100%;
+      height: 220px;
+      border: none;
+      border-radius: 4px;
+      display: block;
+    }
+
+    .video-card p {
+      font-family: var(--mono-font);
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+@media (max-width: 680px) {
+  .video-grid { grid-template-columns: 1fr; }
+}
+
+section {
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--border);
+  animation: fadeUp 0.8s ease both;
+}
+
+.section-label {
+  font-family: var(--mono-font);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+h2 {
+  font-family: var(--heading-font);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
   </style>
 </head>
 <body>
@@ -139,11 +198,43 @@
     <h1>Music</h1>
   </header>
 
-  <div class="coming-soon">
-    <h2 style="font-family: var(--heading-font); font-size: 1.8rem; color: var(--muted);">Coming Soon</h2>
-    <p>Check back later for updates.</p>
-    <a class="back" href="index.html">← Back to Projects</a>
-  </div>
+  <section>
+    <p class="section-label">Chamber Music</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <p>Leclair Sonata</p>
+        <iframe src="https://www.youtube.com/embed/9uX9MeqL4r8" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <p>Prokofiev Sonata for Two Violins</p>
+        <iframe src="https://www.youtube.com/embed/0wWGcV7nVmQ" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Solo Rep</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <p>Bach Chaconne</p>
+        <iframe src="https://www.youtube.com/embed/0D3DaD3dNt0" allowfullscreen></iframe>
+      </div>
+      <div class="video-card">
+        <p>Ysaye Sonata No. 5, Mvmt 1</p>
+        <iframe src="https://www.youtube.com/embed/yhbyB2SGTNQ" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">Piano</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <p>"Revali's Theme"</p>
+        <iframe src="https://www.youtube.com/embed/nBWMSMFaXzU" allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <p>Colin McCann · <a href="index.html" style="color: var(--accent); text-decoration: none;">Projects</a></p>
